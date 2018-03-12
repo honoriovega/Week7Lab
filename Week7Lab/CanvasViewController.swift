@@ -10,6 +10,12 @@ import UIKit
 
 class CanvasViewController: UIViewController {
 
+    @IBOutlet weak var trayView: UIView!
+    
+    // Create a property in your view controller to store the coordinates of the tray's original position
+    var trayOriginalCenter: CGPoint!
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -21,15 +27,24 @@ class CanvasViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func didPanTray(_ sender: UIPanGestureRecognizer) {
+        let translation = sender.translation(in: view)
 
-    /*
-    // MARK: - Navigation
+//        let location = sender.location(in: view)
+//        let velocity = sender.velocity(in: view)
+//        let translation = sender.translation(in: view)
+//
+        if sender.state == .began {
+            print("Gesture began")
+            trayOriginalCenter = trayView.center
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        } else if sender.state == .changed {
+            print("Gesture is changing")
+            trayView.center = CGPoint(x: trayOriginalCenter.x, y: trayOriginalCenter.y + translation.y)
+            
+        } else if sender.state == .ended {
+            print("Gesture ended")
+        }
     }
-    */
-
+    
 }
